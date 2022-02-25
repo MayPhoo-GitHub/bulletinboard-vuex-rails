@@ -1,3 +1,4 @@
+
 <template>
  <div id="users">
    <div class="wrapper">
@@ -13,7 +14,8 @@
       </form>
      </div>
     <h5>Users</h5>
-    <table class="table" id="users">
+   
+    <table class="table dataTable" id="users" ref="users">
       <thead>
         <tr>
           <th>ID</th>
@@ -38,20 +40,23 @@
           </td>
         </tr>
       </tbody>
+     
     </table>
 
    </div>
  </div>
 </template>
-
 <script>
 import {mapActions} from 'vuex';
-import axios from 'axios'
-
+import axios from 'axios';
+const $ = require('jquery');
+import dt from 'datatables.net'
 export default {
 
   name: 'users',
-
+  components: {
+    dt,
+  },
   data() {
     return {
       user: {
@@ -68,20 +73,26 @@ export default {
     users() {
          return this.$store.getters.users;
       },
+     
   },
-
+ mounted() {
+    this.dt = $(this.$refs.users).DataTable();
+    setTimeout(() => this.users = users(50), 1000);
+  },
+  watch: {
+    users(val) {
+      this.dt.destroy();
+      this.$nextTick(() => {
+        this.dt = $(this.$refs.users).DataTable()
+      })
+    }},
   created() {
     if (!this.$store.getters.isLoggedIn) {
         this.$router.push('/login');
       }
     this.$store.dispatch('loadUsers');
     },
-   updated() {
-    if (!this.$store.getters.isLoggedIn) {
-        this.$router.push('/login');
-      }
-    this.$store.dispatch('loadUsers');
-   },
+
   methods: {
     addUser(user){
       if(user.name && user.password && user.email)
@@ -115,6 +126,7 @@ export default {
 </script>
 
 <style>
+
 .btn{
   padding: 5px 20px;
   margin: 20px 0px;
@@ -172,3 +184,4 @@ td{
   color: #de6e66;
 }
 </style>
+<style src="../jquery.datatables.css"/>

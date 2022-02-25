@@ -146,7 +146,7 @@ i{
   padding-right: 10px;
 }
 .header {
-  border-style:solid;
+  border-style:solid transparent;
   background-color: #de6e66;
   border-color: #de6e66;
   padding: 10px;
