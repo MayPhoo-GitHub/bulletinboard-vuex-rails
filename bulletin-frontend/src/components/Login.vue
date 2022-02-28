@@ -1,8 +1,9 @@
 // src/views/Login.vue
 
 <template>
-    <div class="wrapper">
-      <h1>Login</h1>
+
+    <div class="container text-center">
+      <h2 class="text-center">Login Form</h2>
       <input type="text" placeholder="Username" v-model="name" class="form-control shadow-none"/>
       <input type="password" placeholder="Password" v-model="password" class="form-control shadow-none" /> <br>
       <input type="button" class="btn add" @click="login" value="Login" />
@@ -41,3 +42,10 @@ export default {
   }
 };
 </script>
+<style >
+.container {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+</style>
