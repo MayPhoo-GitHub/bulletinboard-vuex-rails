@@ -27,7 +27,6 @@ export default {
     return {
       token: '',
       user: [],
-      csv: null
     };
   },
   async created() {
@@ -47,13 +46,6 @@ computed: {
       this.$store.dispatch('logout');
       this.$router.push('/login');
     },
-     exported(event) {
-      console.log(event)
-      this.isExported = true
-      setTimeout(() => {
-        this.isExported = false
-      }, 3 * 1000)
-     }
   }
 };
 </script>

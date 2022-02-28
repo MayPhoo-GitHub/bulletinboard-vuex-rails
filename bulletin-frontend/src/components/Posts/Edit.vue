@@ -1,7 +1,6 @@
 <template>
   <div class="Edit">
     <div class="wrapper">
-
      <div class="form-inline">
        <h5><i class="fas fa-edit"></i>Edit Post</h5>
       <form>
@@ -12,7 +11,6 @@
         </router-link>
       </form>
      </div>
-
     </div>
   </div>
 </template>

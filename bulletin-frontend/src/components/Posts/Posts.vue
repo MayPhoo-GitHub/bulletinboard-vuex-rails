@@ -37,14 +37,21 @@
         </router-link>
       </div>
     </div>
-    
+    <VueTailwindPagination
+      :current="currentPage"
+      :total="total"
+      :per-page="perPage"
+      @page-changed="onPageClick($event)"
+    />
   </div>
  </div>
 </template>
 
 <script>
-
 import JsonCSV from '/src/JsonCSV.vue'
+import JwPagination from '/src/JwPagination';
+import "@ocrv/vue-tailwind-pagination/dist/style.css";
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 import {mapActions} from 'vuex';
 import axios from 'axios'
 export default {
@@ -52,6 +59,8 @@ export default {
   name: 'Posts',
   components: {
     'download-csv': JsonCSV,
+    JwPagination,
+    VueTailwindPagination
   },
   data() {
     return {
@@ -59,6 +68,10 @@ export default {
         title: null,
         details: null,
       },
+      currentPage: 0,
+      perPage: 0,
+      total: 0,
+      data: [],
       csv: null,
       keyword: "",
       file: '',
@@ -78,7 +91,10 @@ export default {
          return this.$store.getters.posts;
       },
   },
-
+mounted() {
+    this.currentPage = 2;
+    this.getData(this.currentPage);
+},
   created() {
     if (!this.$store.getters.isLoggedIn) {
       this.$router.push('/login');
@@ -105,6 +121,21 @@ export default {
         console.log('FAILURE!!');
       });
     },
+   onPageClick(event) {
+      this.currentPage = event;
+      this.getData(this.currentPage);
+    },
+    async getData(pageNumber) {
+      console.warn(pageNumber)
+      var response = await axios.get(
+        "http://localhost:3000/posts/?page=" +pageNumber
+      );
+      var responseData = response.data;
+      this.currentPage = responseData.page;
+      this.perPage = responseData.per_page;
+      this.total = responseData.total;
+      this.data = response.data.data;
+    },
     addPost(post){
       if(post.title && post.details)
       {
@@ -124,9 +155,9 @@ export default {
           this.$store.dispatch('loadPosts');
         })
 
-    }
+    },
   },
-
+  
 }
 
 </script>
@@ -155,7 +186,7 @@ i{
   border-radius: 10px 10px 0 0;
 }
 .content {
-  border-style:solid;
+  border:solid 1px;
   border-color: #de6e66;
   font-size: 16px;
   color: #de6e66;

@@ -14,6 +14,11 @@ const routes = [
     name: 'Users',
     component: Users,
   },
+  {
+    path: '/posts/page?:pageNumber',
+    name: 'Post_Page',
+    component: Posts,
+  },
 
   {
     path: '/',
