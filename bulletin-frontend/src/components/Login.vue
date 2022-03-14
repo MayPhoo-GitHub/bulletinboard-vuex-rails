@@ -34,7 +34,6 @@ export default {
         const user = response.user;
         this.$router.push('/posts');
         this.$store.dispatch('login', { token, user });
-      
       } catch (error) {
         this.msg = error.response;
       }

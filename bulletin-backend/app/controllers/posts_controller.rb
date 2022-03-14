@@ -6,10 +6,10 @@ class PostsController < ApplicationController
     if params[:keyword]
       @search_keyword = params[:keyword]
       @posts = Post.where("title LIKE :title or details LIKE :cont",
-                            { :title => "%#{@search_keyword}%", :cont => "%#{@search_keyword}%" }.paginate(page: params[:page], per_page: 5))
+                            { :title => "%#{@search_keyword}%", :cont => "%#{@search_keyword}%" })
       render json: @posts
     else
-      @posts = Post.all.paginate(page: params[:page], per_page: 5)
+      @posts = Post.all
       render json: @posts
     end
   end
